@@ -7,9 +7,11 @@ require('dotenv').config();
 
 router.get('/', authenticate, async (req, res) => {
     try {
-        const user =  req.user; // Assuming authenticate middleware sets req.user
+        const user =  req.user; 
         const tasks = await Task.findAll({
-            userId : user.id,
+            where : {
+                userId : user.id
+            }
         })
         res.status(200).json({
             message: 'Tasks retrieved successfully',
@@ -57,10 +59,10 @@ router.put('/:id', authenticate, async (req, res) => {
     try {
         const user = req.user;
         const { id } = req.params;
-        const { title, description } = req.body;
-        if (!title || !description) {
+        const { title } = req.body;
+        if (!title) {
             return res.status(400).json({
-                message: 'Title and description are required'
+                message: 'Title are required'
             });
         }
         const task = await Task.findOne({
@@ -74,8 +76,8 @@ router.put('/:id', authenticate, async (req, res) => {
                 message: 'Task not found'
             });
         }
-        task,title = title;
-        task.description = description;
+        
+        task.taskName = title;
         await task.save();
         res.status(200).json({
             message: 'Task updated successfully',

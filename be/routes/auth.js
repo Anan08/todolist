@@ -70,7 +70,10 @@ router.get('/me', authenticate, async (req, res) => {
     return res.status(200).json({
         message: 'Data retrieved successfully',
         data: {
+            id: user.id,
             email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
         }
     })
 })
@@ -87,6 +90,21 @@ router.get('/logout', async (req, res) => {
     res.clearCookie('token');
     return res.status(200).json({
         message: 'Logout successful'
+    })
+})
+
+router.post('/register', async (req, res) => {
+    const { email, password, firstName, lastName } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({
+        email : email,
+        password : hashedPassword,
+        firstName : firstName,
+        lastName : lastName
+    });
+
+    return res.status(200).json({
+        message: 'User created successfully',
     })
 })
 
