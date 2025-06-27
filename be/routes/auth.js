@@ -96,7 +96,7 @@ router.get('/logout', async (req, res) => {
 router.post('/register', async (req, res) => {
     const { email, password, firstName, lastName } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    await User.create({
         email : email,
         password : hashedPassword,
         firstName : firstName,
