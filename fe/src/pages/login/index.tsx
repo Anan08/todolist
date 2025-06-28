@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import useAuthStore from "../../store/useAuthStore";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add authentication logic here
-    console.log("Logging in with", username, password);
-    // For now, just navigate to dashboard or home
+    const success = await login(email, password);
+    if (!success) {
+      alert("Login failed. Please check your credentials.");
+      return;
+    }
     navigate("/dashboard");
   };
 
@@ -22,14 +26,14 @@ export default function Login() {
         </h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-              Username
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
             </label>
             <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
             />
