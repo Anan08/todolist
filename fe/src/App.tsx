@@ -6,7 +6,10 @@ import Register from "./pages/register"
 import Dashboard from "./pages/dashboard"
 import ProtectedRoute from "./middleware/ProtectedRoute"
 import PublicRoute from "./middleware/PublicRoute"
-
+import DashboardLayout from "./layouts/dashboard"
+import TaskPage from "./pages/dashboard/task"
+import ProfilePage from "./pages/dashboard/profile"
+import FinishedPage from "./pages/dashboard/finished"
 
 function App() {
   return (
@@ -27,9 +30,14 @@ function App() {
         <Route path="*" element={<Home/>} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardLayout />
           </ProtectedRoute>
         }> 
+          <Route index element={<Dashboard />} />
+          <Route path="tasks" element={<TaskPage />} />
+          <Route path="finished" element={<FinishedPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          {/* Add more dashboard routes as needed */}
         </Route>
       </Routes>
     </BrowserRouter>
