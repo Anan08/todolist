@@ -39,10 +39,28 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-    }
+    },
+    birthDate: {
+      type: DataTypes.DATE,
+      allowNull: true,  
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    username : {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    profilePicture: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   }, {
     sequelize,
     modelName: 'User',
+    timestamps: true,
   });
   return User;
 };

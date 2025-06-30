@@ -18,13 +18,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Task.init({
-    taskName: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    dueDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    priority: {
+      type: DataTypes.ENUM('low', 'medium', 'high'),
+      defaultValue: 'medium',
+    },
     status: {
-      type: DataTypes.ENUM('pending', 'in-progress', 'completed'),
-      defaultValue: 'pending',
+      type: DataTypes.ENUM('todo', 'in-progress', 'done'),
+      defaultValue: 'in-progress',
     },
     userId: {
       type: DataTypes.UUID,
@@ -42,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Task',
+    timestamps: true,
   });
   return Task;
 };

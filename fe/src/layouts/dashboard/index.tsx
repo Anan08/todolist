@@ -8,6 +8,8 @@ import useAuthStore from "../../store/useAuthStore";
 export default function DashboardLayout() {
   const [activeId, setActiveId] = useState<number | null>(1); 
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [activeName, setActiveName] = useState<string>("Dashboard");
+  const [activeIcon, setActiveIcon] = useState<string>('dashboard');
   const logout = useAuthStore((state) => state.logout);
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -15,6 +17,8 @@ export default function DashboardLayout() {
   const Navigate = useNavigate();
   const handleSidebarItemClick = (item : SideBarItem) => {
     setActiveId(item.id);
+    setActiveName(item.title);
+    setActiveIcon(item.icon);
     Navigate(item.route);
   }
 
@@ -71,7 +75,18 @@ export default function DashboardLayout() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-6">
+      <main className="flex-1 overflow-y-auto">
+        <div className="flex items-center justify-between h-10 border-b border-gray-200 p-8">
+          <h1 className="text-lg font-bold text-gray-800 flex items-center"> <span className="pr-5"><DynamicIcon name={activeIcon}/></span> {activeName}</h1>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleSidebar}
+              className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+            >
+              {isCollapsed ? <DynamicIcon name="chevron-right" color="white" size={14}/> : <DynamicIcon name="chevron-left" color="white" size={14}/>}
+            </button>
+          </div>
+        </div>
         <Outlet />
       </main>
     </div>

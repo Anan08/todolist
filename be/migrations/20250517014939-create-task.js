@@ -10,11 +10,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      taskName: {
+      title: {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('todo', 'in-progress', 'done'),
+        defaultValue: 'in-progress',
       },
       userId: {
         type: Sequelize.UUID,
@@ -26,7 +27,19 @@ module.exports = {
           onDelete: 'CASCADE',
           onUpdate: 'CASCADE',
 
-        }},
+      }},
+      dueDate: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+      priority: {
+        type: Sequelize.ENUM('low', 'medium', 'high'),
+        defaultValue: 'medium',
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       createdAt: {
         type: Sequelize.DATE
       },
