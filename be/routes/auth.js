@@ -38,10 +38,7 @@ router.post('/login', async (req, res) => {
 
     //Generate Token
     const token = jwt.sign({
-        id : user.id,
-        email : user.email,
-        firstName : user.firstName,
-        lastName : user.lastName
+        id : user.id,  
     }, process.env.JWT_SECRETKEY, {
         expiresIn: '24h'
     })
@@ -59,13 +56,19 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/me', authenticate, async (req, res) => {
-    const user = req.user;;
 
+    const user = await User.findOne({
+        where: {
+            id : req.user.id
+        }
+    });
+    
     if (!user) {
         return res.status(401).json({
             message : 'Please login to access this resource'
         })
     }
+
 
     return res.status(200).json({
         message: 'Data retrieved successfully',
@@ -73,7 +76,12 @@ router.get('/me', authenticate, async (req, res) => {
             id: user.id,
             email: user.email,
             firstName: user.firstName,
-            lastName: user.lastName
+            lastName: user.lastName,
+            gender: user.gender,
+            username: user.username,
+            bio: user.bio,
+            birthDate: user.birthDate,
+            profilePic: user.profilePicture,
         }
     })
 })

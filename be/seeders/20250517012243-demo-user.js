@@ -9,6 +9,11 @@ module.exports = {
         firstName: 'John',
         lastName: 'Doe',
         email: 'johndoe@mail.com',
+        username: 'johndoe',
+        profilePicture: '',
+        gender : 'male',
+        bio: 'lorem ipsum dolor sit amet',
+        birthDate: new Date(),
         password: await bcrypt.hash('12345678', 10),
         createdAt: new Date(),
         updatedAt: new Date()

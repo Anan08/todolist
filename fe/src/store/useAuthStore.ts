@@ -42,7 +42,7 @@ const useAuthStore = create<AuthState>((set) => ({
       if (!res.ok) throw new Error("Unauthorized");
 
       const user = await res.json();
-      set({ currentUser: user });
+      set({ currentUser: user.data });
     } catch {
       set({ currentUser: null });
     }

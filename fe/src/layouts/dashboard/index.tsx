@@ -10,6 +10,7 @@ export default function DashboardLayout() {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [activeName, setActiveName] = useState<string>("Dashboard");
   const [activeIcon, setActiveIcon] = useState<string>('dashboard');
+  const currentUser = useAuthStore((state) => state.currentUser)
   const logout = useAuthStore((state) => state.logout);
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -34,7 +35,7 @@ export default function DashboardLayout() {
         <nav className="flex p-4 space-y-1 flex-col transition-all duration-300 justify-between h-full">
           <div className="p-4 flex flex-col items-center">
             <div className="mb-10">
-              <img className={`${isCollapsed ? "w-10 h-10" : "h-20 w-20"} rounded-full object-cover transition-all duration-300`} src="https://images.unsplash.com/photo-1750692115876-828f4f1b69e4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+              <img className={`${isCollapsed ? "w-10 h-10" : "h-20 w-20"} rounded-full object-cover transition-all duration-300`} src={currentUser?.profilePic ? import.meta.env.VITE_BACKEND_URL + currentUser.profilePic : "https://images.unsplash.com/photo-1750692115876-828f4f1b69e4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="" />
             </div>
               {sideBarItems.map((item : SideBarItem) => {
                   const isActive = item.id === activeId;

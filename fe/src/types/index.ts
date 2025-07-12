@@ -7,7 +7,7 @@ export interface User {
   gender : string;
   birthDate: Date;
   bio: string;
-  profilePicture: string;
+  profilePic: string;
 }
 
 export interface Task {
